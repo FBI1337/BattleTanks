@@ -14,11 +14,13 @@ import android.view.View.VISIBLE
 import android.widget.FrameLayout
 import androidx.core.view.marginLeft
 import androidx.core.view.marginTop
-import com.example.battletanks.Direction.UP
-import com.example.battletanks.Direction.DOWN
-import com.example.battletanks.Direction.LEFT
-import com.example.battletanks.Direction.RIGHT
+import com.example.battletanks.enums.Direction.UP
+import com.example.battletanks.enums.Direction.DOWN
+import com.example.battletanks.enums.Direction.LEFT
+import com.example.battletanks.enums.Direction.RIGHT
 import com.example.battletanks.databinding.ActivityMainBinding
+import com.example.battletanks.drawers.GridDrawer
+import com.example.battletanks.enums.Direction
 
 const val CELL_SIZE = 50
 
