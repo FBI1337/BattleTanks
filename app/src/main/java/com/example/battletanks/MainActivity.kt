@@ -28,6 +28,7 @@ import com.example.battletanks.models.Coordinate
 const val CELL_SIZE = 50
 
 lateinit var binding: ActivityMainBinding
+
 class MainActivity : AppCompatActivity() {
     private var editMode = false
     private val gridDrawer by lazy {
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private val elementsDrawer by lazy {
         ElementDrawer(binding.container)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -44,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Menu"
 
-        binding.editorClear.setOnClickListener{ elementsDrawer.currentMaterial = Material.EMPTY }
+        binding.editorClear.setOnClickListener { elementsDrawer.currentMaterial = Material.EMPTY }
         binding.editorBrick.setOnClickListener { elementsDrawer.currentMaterial = Material.BRICK }
         binding.editorConcrete.setOnClickListener {
             elementsDrawer.currentMaterial = Material.CONCRETE
@@ -76,24 +78,25 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.menu_settings -> {
                 switchEditMode()
-                return  true
+                return true
             }
 
             else -> super.onOptionsItemSelected(item)
         }
     }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         when (keyCode) {
-            KEYCODE_DPAD_UP -> move(UP)
-            KEYCODE_DPAD_DOWN -> move(DOWN)
-            KEYCODE_DPAD_LEFT -> move(LEFT)
-            KEYCODE_DPAD_RIGHT -> move(RIGHT)
+            KEYCODE_DPAD_UP -> elementsDrawer.move(binding.myTank, UP)
+            KEYCODE_DPAD_DOWN -> elementsDrawer.move(binding.myTank, DOWN)
+            KEYCODE_DPAD_LEFT -> elementsDrawer.move(binding.myTank, LEFT)
+            KEYCODE_DPAD_RIGHT -> elementsDrawer.move(binding.myTank, RIGHT)
         }
         return super.onKeyDown(keyCode, event)
     }
 
     private fun move(direction: Direction) {
-        when(direction){
+        when (direction) {
             UP -> {
                 binding.myTank.rotation = 0f
                 if (binding.myTank.marginTop > 0) {

@@ -1,10 +1,10 @@
 package com.example.battletanks.enums
 
-enum class Material {
+enum class Material (val tankConGoThrough: Boolean) {
 
-    EMPTY,
-    BRICK,
-    CONCRETE,
-    GRASS,
+    EMPTY(true),
+    BRICK(false),
+    CONCRETE(true),
+    GRASS(true),
 
 }
