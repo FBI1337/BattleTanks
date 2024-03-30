@@ -53,34 +53,37 @@ class ElementDrawer(val container: FrameLayout) {
         when (direction) {
             Direction.UP -> {
                 myTank.rotation = 0f
-                if (myTank.marginTop > 0) {
-                    (myTank.layoutParams as FrameLayout.LayoutParams).topMargin += -CELL_SIZE
-                }
+                (myTank.layoutParams as FrameLayout.LayoutParams).topMargin += -CELL_SIZE
             }
 
             Direction.DOWN -> {
                 myTank.rotation = 180f
-                if (myTank.marginTop + myTank.height < binding.container.height / CELL_SIZE * CELL_SIZE) {
-                    (myTank.layoutParams as FrameLayout.LayoutParams).topMargin += CELL_SIZE
-                }
+                (myTank.layoutParams as FrameLayout.LayoutParams).topMargin += CELL_SIZE
             }
 
             Direction.LEFT -> {
                 myTank.rotation = 270f
-                if (myTank.marginLeft > 0) {
-                    (myTank.layoutParams as FrameLayout.LayoutParams).leftMargin -= CELL_SIZE
-                }
+                (myTank.layoutParams as FrameLayout.LayoutParams).leftMargin -= CELL_SIZE
             }
 
             Direction.RIGHT -> {
                 myTank.rotation = 90f
-                if (myTank.marginLeft + myTank.width < binding.container.width / CELL_SIZE * CELL_SIZE) {
-                    (myTank.layoutParams as FrameLayout.LayoutParams).leftMargin += CELL_SIZE
-                }
+                (myTank.layoutParams as FrameLayout.LayoutParams).leftMargin += CELL_SIZE
             }
         }
-        binding.container.removeView(binding.myTank)
-        binding.container.addView(binding.myTank)
+        val nextCoordinate = Coordinate(layoutParams.topMargin, layoutParams.leftMargin)
+        if (checkTankCanMoveThrounghBorder(
+                nextCoordinate,
+                myTank
+            ) && checkTankCanMoveThrounghBorder(nextCoordinate)
+        ){
+            binding.container.removeView(myTank)
+            binding.container.addView(myTank)
+        } else {
+            (myTank.layoutParams as FrameLayout.LayoutParams).topMargin = currentCoordinate.top
+            (myTank.layoutParams as FrameLayout.LayoutParams).leftMargin = currentCoordinate.left
+        }
+
     }
 
     private fun getElementByCoordinates(coordinate: Coordinate) =
@@ -96,11 +99,11 @@ class ElementDrawer(val container: FrameLayout) {
         return true
     }
 
-    private fun checkTankCanMoveThrounghBorder(coordinate: Coordinate, myTank: View): Boolean {
-        return coordinate.top >= 0 &&
-                coordinate.top + myTank.height <= binding.container.height &&
-                coordinate.left >= 0 &&
-                coordinate.left + myTank.width <= binding.container.width
+    private fun checkTankCanMoveThrounghBorder(nextCoordinate: Coordinate, myTank: View): Boolean {
+        return nextCoordinate.top >= 0 &&
+                nextCoordinate.top + myTank.height <= binding.container.height  &&
+                nextCoordinate.left >= 0 &&
+                nextCoordinate.left + myTank.width <= binding.container.width
     }
 
     private fun getTankCoordinates(topLeftCoordinate: Coordinate): List<Coordinate> {
